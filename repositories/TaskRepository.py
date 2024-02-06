@@ -20,6 +20,4 @@ class TaskRepository():
             query = select(self.model)
             result = await session.execute(query)
             results: List[self.model] = result.scalars().unique().all()
-            
             return results
-            
