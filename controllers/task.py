@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends
 from services.TaskService import TaskService
 from config.deps import get_current_user
 from utils.decorators import isInstructor
+from sqlalchemy.ext.asyncio import AsyncSession
+from config.deps import get_session
 
 
 router = APIRouter(
@@ -10,10 +12,11 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-service = TaskService()
+
 
 @router.get("/",)
-async def list_all():
+async def list_all( db: AsyncSession = Depends(get_session)):
+    service = TaskService(db)
     return await service.listAll()
 
 @router.get("/teste",)
