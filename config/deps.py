@@ -2,7 +2,7 @@ from typing import Generator, Annotated
 from config.database import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from jose import JWTError, jwt, ExpiredSignatureError
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer
 from fastapi import status, HTTPException, Depends
 from pydantic import BaseModel
 from infra.keycloak import keycloak_openid
@@ -17,16 +17,6 @@ async def get_session() -> Generator:
         yield session
     finally:
         await session.close()
-        
-async def get_current_user(token: str):
-    """
-    :param token: jwt token
-    :return:
-    """
-    decoded_data = jwt.decode(jwt=token, key='secret', algorithms=[ALGORITHM])
-
-    return decoded_data
-
 
 
 class TokenData(BaseModel):

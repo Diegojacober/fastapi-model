@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends
 from services.TaskService import TaskService
 from config.deps import get_current_user
+from utils.decorators import isInstructor
 
-from typing import Annotated
 
 router = APIRouter(
-    prefix="/posts",
-    tags=["posts"],
+    prefix="/tasks",
+    tags=["tasks"],
     responses={404: {"description": "Not found"}},
 )
 
@@ -19,3 +19,9 @@ async def list_all():
 @router.get("/teste",)
 async def teste(logged_user = Depends(get_current_user)):
     return logged_user;
+
+
+@router.get("/instrutor")
+@isInstructor
+async def test(logged_user = Depends(get_current_user)):
+    return "teste";
