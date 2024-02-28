@@ -13,7 +13,5 @@ class Settings(BaseModel):
     
     class Config:
         arbitrary_types_allowed=True
-        case_sensitive = True
-        from_attributes = True
     
 settings = Settings()

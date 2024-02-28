@@ -8,4 +8,4 @@ class Task(settings.DB_BASEMODEL):
     
     id: int = Column(Integer, primary_key=True, autoincrement=True)
     title: str =  Column(String(256))
-    status: TaskStatus = Field(default=TaskStatus.DRAFT)
+    status: TaskStatus = Column(String(256),default=TaskStatus.DRAFT)
