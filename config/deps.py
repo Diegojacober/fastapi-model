@@ -49,14 +49,19 @@ async def get_current_user_keycloak(token: Annotated[str, Depends(oauth2_scheme)
 
 
 def get_current_user_azure(token: Annotated[str, Depends(oauth2_scheme)]):
+    # credencial padrão caso de uma expection não especificada
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        tenant_id = ""
+        
+        tenant_id = "" # id do diretório (locatario) - no painel do aplicativo na azure 
+
+        # url de certificados para verificar o token
         jwks_url = f"https://login.microsoftonline.com/{tenant_id}/discovery/v2.0/keys"
+        # url de quem criou o token e vai verificar se ele existe
         issuer_url = f"https://login.microsoftonline.com/{tenant_id}/v2.0"
 
         jwks = json.loads(urlopen(jwks_url).read())
